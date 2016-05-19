@@ -1,0 +1,48 @@
+CREATE SCHEMA IF NOT EXISTS course_work;
+USE course_work;
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP TABLE IF EXISTS Discipline;
+CREATE TABLE IF NOT EXISTS Discipline(
+	title VARCHAR(255) PRIMARY KEY
+)ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Student;
+CREATE TABLE IF NOT EXISTS Student(
+	studentId VARCHAR(12) PRIMARY KEY,
+	firstName VARCHAR(255),
+    lastName VARCHAR(255)
+)ENGINE=InnoDB;
+
+
+DROP TABLE IF EXISTS Course;
+CREATE TABLE IF NOT EXISTS Course(
+	courseId VARCHAR(255) PRIMARY KEY,
+    isFinished BOOLEAN,
+    lessonNumber INTEGER,
+	price NUMERIC(6, 2),
+    discipline VARCHAR(255) REFERENCES Discipline
+)ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS CourseSubscription;
+CREATE TABLE IF NOT EXISTS CourseSubscription(
+	subscriptionId INT PRIMARY KEY AUTO_INCREMENT,
+	studentId VARCHAR(13),
+    courseId VARCHAR(255),
+    isPayed BOOLEAN,
+    UNIQUE(studentId, courseId),
+    FOREIGN KEY (studentId) REFERENCES Student(studentId) ON DELETE CASCADE,
+    FOREIGN KEY (courseId)  REFERENCES Course(courseId)   ON DELETE CASCADE
+)ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Lesson;
+CREATE TABLE IF NOT EXISTS Lesson(
+	lessonId INT AUTO_INCREMENT PRIMARY KEY,
+	room VARCHAR(255),
+    lessonTime DATETIME,
+    courseId VARCHAR(255),
+    CONSTRAINT lessons_hosted_by_course
+    FOREIGN KEY (courseId) REFERENCES Course(courseId) ON DELETE CASCADE
+)ENGINE=InnoDB;
+
+SET FOREIGN_KEY_CHECKS=1;
