@@ -1,0 +1,45 @@
+@import models.misc.SubscriptionTuple
+@(subscriptions : List[SubscriptionTuple], students : List[Student], courses : List[Course], msg : String, activeMenu: Integer)
+
+@main("Welcome!", activeMenu) {
+
+    <div class="row">
+        <div class="col-sm-11 col-sm-offset-1">
+
+            @if(msg!=null && msg!="") {
+                <div class="alert alert-warning">
+                    <strong>Warning!</strong> @msg
+                </div>
+            }
+
+            <h2>Subscriptions</h2>
+            <p>This table shows student subscriptions to specific courses.</p>
+            <table class="table table-hover">
+                <thead class="data-header">
+                    <tr>
+                        <th>Subscription ID</th>
+                        <th>Course ID</th>
+                        <th>Discipline</th>
+                        <th>Student</th>
+                        <th>Student ID</th>
+                        <th>Is Payed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(subscription <- subscriptions) {
+                    <tr>
+                        <td>@subscription.getSubscription.getSubscriptionId</td>
+                        <td>@subscription.getCourse.getCourseId</td>
+                        <td>@subscription.getCourse.getDisciplineTitle</td>
+                        <td>@subscription.getStudent.getFirstName @subscription.getStudent.getLastName</td>
+                        <td>@subscription.getStudent.getStudentId</td>
+                        <td>@subscription.getSubscription.isPayed</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @components.modals.subscriptionmodals(subscriptions, students, courses)
+}

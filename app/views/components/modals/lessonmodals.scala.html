@@ -1,0 +1,77 @@
+@(courses : List[Course], lessons: List[Lesson])
+
+@components.buttons()
+@components.modals.generic.updatemodal("Update lesson", routes.LessonController.updateLesson().url){
+
+    <div class="form-group">
+        <label>Chose lesson</label>
+        <select class="form-control" name="oldLessonId" id="oldLessonId">
+        @for(lesson <- lessons) {
+            <option value="@lesson.getLessonId">
+                @lesson.getCourseId (Time: @lesson.getLessonTime)
+            </option>
+        }
+        </select>
+    </div>
+    <br>
+
+    <div class="form-group">
+        <label>Time</label>
+        <input type="text" class="form-control" name="lessonTime" placeholder="mm/dd/yyyy hh:mm:ss">
+    </div>
+
+    <div class="form-group">
+        <label>Room</label>
+        <input type="text" class="form-control" name="room">
+    </div>
+
+    <div class="form-group">
+
+        <label>Course ID</label>
+        <select class="form-control" name="courseId">
+        @for(course <- courses) {
+            <option value="@course.getCourseId">
+                @course.getDisciplineTitle ( @course.getCourseId )
+            </option>
+        }
+        </select>
+
+    </div>
+}
+
+@components.modals.generic.createmodal("Create lesson", routes.LessonController.addLesson().url){
+
+    <div class="form-group">
+        <label>Time</label>
+        <input type="text" class="form-control" name="lessonTime" placeholder="mm/dd/yyyy hh:mm:ss">
+    </div>
+
+    <div class="form-group">
+        <label>Room</label>
+        <input type="text" class="form-control" name="room">
+    </div>
+
+    <div class="form-group">
+
+        <label>Course ID</label>
+        <select class="form-control" name="courseId">
+        @for(course <- courses) {
+            <option value="@course.getCourseId">
+                @course.getDisciplineTitle ( @course.getCourseId )
+            </option>
+        }
+        </select>
+
+    </div>
+}
+@components.modals.generic.deletemodal("Delete student", routes.LessonController.deleteLesson().url){
+
+    <label>Lesson ID</label>
+    <select class="form-control" name="lessonId">
+    @for(lesson <- lessons) {
+        <option value="@lesson.getLessonId">
+            Id: @lesson.getLessonId | @lesson.getCourseId ( Time: @lesson.getLessonTime )
+        </option>
+    }
+    </select>
+}

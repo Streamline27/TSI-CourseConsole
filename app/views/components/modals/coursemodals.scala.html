@@ -1,0 +1,102 @@
+@(courses : List[Course], disciplines : List[Discipline])
+
+@components.buttons()
+@components.modals.generic.updatemodal("Update course", routes.CoursesController.updateCourse().url){
+
+
+    <div class="form-group">
+        <label>Course to update</label>
+        <select class="form-control" name="oldCourseId" id="oldCourseId">
+            @for(course <- courses) {
+                <option value="@course.getCourseId">
+                    @course.getDisciplineTitle ( @course.getCourseId )
+                </option>
+            }
+        </select>
+    </div>
+    <br>
+    <div class="form-group">
+        <label>Course ID:</label>
+        <input type="text" class="form-control" name="courseId" placeholder="XX-XXX">
+    </div>
+
+    <div class="form-group">
+        <label>Lesson number</label>
+        <input type="text" class="form-control" name="lessonNumber">
+    </div>
+
+    <div class="form-group">
+        <label>Price</label>
+        <input type="text" class="form-control" name="price">
+    </div>
+
+    <div class="form-group">
+        <label>isFinished</label>
+        <select class="form-control" name="isFinished">
+            <option value="true"> true </option>
+            <option value="false"> false </option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Discipline</label>
+        <select class="form-control" name="disciplineTitle">
+            <option value=""> - </option>
+            @for(discipline <- disciplines) {
+                <option value="@discipline.getTitle">
+                    @discipline.getTitle
+                </option>
+            }
+        </select>
+    </div>
+}
+
+@components.modals.generic.createmodal("Create Course", routes.CoursesController.addCourse().url){
+
+    <div class="form-group">
+        <label>Course ID:</label>
+        <input type="text" class="form-control" name="courseId" placeholder="XX-XXX">
+    </div>
+
+    <div class="form-group">
+        <label>Lesson number</label>
+        <input type="text" class="form-control" name="lessonNumber">
+    </div>
+
+    <div class="form-group">
+        <label>Price</label>
+        <input type="text" class="form-control" name="price">
+    </div>
+
+    <div class="form-group">
+        <label>isFinished</label>
+        <select class="form-control" name="isFinished">
+            <option value="true"> true </option>
+            <option value="false"> false </option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Discipline</label>
+        <select class="form-control" name="disciplineTitle">
+            <option value=""> - </option>
+            @for(discipline <- disciplines) {
+                <option value="@discipline.getTitle">
+                @discipline.getTitle
+                </option>
+            }
+        </select>
+    </div>
+}
+@components.modals.generic.deletemodal("Delete course", routes.CoursesController.deleteCourse().url){
+
+    <label>Course to delete</label>
+    <select class="form-control" name="courseId" id="courseId">
+    @for(course <- courses) {
+        <option value="@course.getCourseId">
+            @course.getDisciplineTitle ( @course.getCourseId )
+        </option>
+    }
+    </select>
+
+}

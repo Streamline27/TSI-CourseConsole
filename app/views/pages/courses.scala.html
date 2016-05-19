@@ -1,0 +1,42 @@
+@(courses : List[Course], disciplines : List[Discipline], msg: String, activeMenu: Integer)
+
+@main("Welcome!", activeMenu){
+
+    <div class="row">
+        <div class="col-sm-11 col-sm-offset-1">
+
+            @if(msg!=null && msg!="") {
+                <div class="alert alert-warning">
+                    <strong>Warning!</strong> @msg
+                </div>
+            }
+
+            <h2>Courses</h2>
+            <p>This table shows all courses that are run by our company.</p>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="data-header">
+                        <th>Course ID</th>
+                        <th>Is Finished</th>
+                        <th>Lesson Number</th>
+                        <th>Price</th>
+                        <th>Program</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(course <- courses) {
+                    <tr>
+                        <td>@course.getCourseId</td>
+                        <td>@course.getFinished</td>
+                        <td>@course.getLessonNumber</td>
+                        <td>@course.getPrice</td>
+                        <td>@course.getDisciplineTitle</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @components.modals.coursemodals(courses, disciplines)
+}

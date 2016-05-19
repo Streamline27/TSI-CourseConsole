@@ -1,0 +1,37 @@
+@(students : List[Student], courses: List[Course], activeMenu: Integer)
+
+@main("Welcome!", activeMenu) {
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            @components.search("Course groups", "Select course:", routes.GroupController.defaultResult().url){
+                @for(course <- courses) {
+                    <option value="@course.getCourseId">
+                        @course.getDisciplineTitle (@course.getCourseId)
+                    </option>
+                }
+            }
+
+            <table class="table table-hover">
+                <thead class="data-header">
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>Student ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(student <- students) {
+                    <tr>
+                        <td>@student.getFirstName</td>
+                        <td>@student.getLastName</td>
+                        <td>@student.getStudentId</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+}

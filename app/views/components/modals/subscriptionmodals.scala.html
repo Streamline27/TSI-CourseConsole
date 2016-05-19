@@ -1,0 +1,80 @@
+@import models.misc.SubscriptionTuple
+@(subscriptions : List[SubscriptionTuple], students : List[Student], courses : List[Course])
+
+@components.buttons()
+@components.modals.generic.updatemodal("Update subscription", routes.SubscriptionController.updateSubscription().url){
+
+    <div class="form-group">
+        <label>Chose subscription</label>
+        <select class="form-control" name="subscriptionId" id="subscriptionId">
+            @for(subscription <- subscriptions) {
+                <option value="@subscription.getSubscription.getSubscriptionId">
+                    Course: @subscription.getSubscription.getCourseId | Student: @subscription.getSubscription.getStudentId
+                </option>
+            }
+        </select>
+    </div>
+    <br>
+
+    <div class="form-group">
+        <label>Payed:</label>
+        <select class="form-control" name="payed">
+            <option value="true"> true </option>
+            <option value="false"> false </option>
+        </select>
+    </div>
+
+}
+
+@components.modals.generic.createmodal("Create Subscription", routes.SubscriptionController.addSubscription().url){
+
+
+
+    <div class="form-group">
+
+        <label>Student:</label>
+        <select class="form-control" name="studentId" id="studentId">
+            <option value=""> - </option>
+            @for(student <- students) {
+                <option value="@student.getStudentId">
+                    @student.getFirstName @student.getLastName
+                </option>
+            }
+        </select>
+
+    </div>
+    <div class="form-group">
+
+        <label>Course:</label>
+        <select class="form-control" name="courseId" id="courseId">
+            <option value=""> - </option>
+            @for(course <- courses) {
+                <option value="@course.getCourseId">
+                    @course.getDisciplineTitle ( @course.getCourseId )
+                </option>
+            }
+        </select>
+
+    </div>
+    <div class="form-group">
+        <label>Payed:</label>
+        <select class="form-control" name="payed">
+            <option value="true"> true </option>
+            <option value="false"> false </option>
+        </select>
+    </div>
+
+}
+@components.modals.generic.deletemodal("Delete subscription", routes.SubscriptionController.deleteSubscription().url){
+
+    <div class="form-group">
+        <label>Chose subscription</label>
+        <select class="form-control" name="subscriptionId" id="subscriptionId">
+        @for(subscription <- subscriptions) {
+            <option value="@subscription.getSubscription.getSubscriptionId">
+                    Course: @subscription.getSubscription.getCourseId | Student: @subscription.getSubscription.getStudentId
+                </option>
+        }
+        </select>
+    </div>
+}

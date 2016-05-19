@@ -1,0 +1,55 @@
+@(students : List[Student])
+
+    @components.buttons()
+    @components.modals.generic.updatemodal("Update student", routes.StudentsController.updateStudent().url){
+
+        <div class="form-group">
+            <label>Chose student</label>
+            <select class="form-control" name="oldStudentId" id="studentId">
+            @for(student <- students) {
+                <option value="@student.getStudentId">
+                    @student.getFirstName @student.getLastName
+                </option>
+            }
+            </select>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label>First name</label>
+            <input type="text" class="form-control" name="firstName">
+        </div>
+
+        <div class="form-group">
+            <label>Last name</label>
+            <input type="text" class="form-control" name="lastName">
+        </div>
+
+        <div class="form-group">
+            <label>Student ID</label>
+            <input type="text" class="form-control" name="studentId" placeholder="xxxxx-xxxxxx">
+        </div>
+    }
+
+    @components.modals.generic.createmodal("Create Student", routes.StudentsController.addStudent().url){
+
+        <label>Student ID</label>
+        <input type="text" class="form-control" name="studentId">
+
+        <label>First name</label>
+        <input type="text" class="form-control" name="firstName">
+
+        <label>Last name</label>
+        <input type="text" class="form-control" name="lastName" placeholder="xxxxx-xxxxxx">
+    }
+    @components.modals.generic.deletemodal("Delete student", routes.StudentsController.deleteStudent().url){
+
+        <label>Student ID</label>
+        <select class="form-control" name="studentId">
+            @for(student <- students) {
+                <option value="@student.getStudentId">
+                @student.getFirstName @student.getLastName
+                </option>
+            }
+        </select>
+    }

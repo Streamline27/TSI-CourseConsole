@@ -1,0 +1,35 @@
+@(disciplines : List[Discipline])
+
+@components.buttons()
+@components.modals.generic.updatemodal("Update discipline", routes.DisciplineController.updateDiscipline().url){
+
+    <select class="form-control" name="oldTitle" id="disciplineTitle">
+    @for(discipline <- disciplines) {
+        <option value="@discipline.getTitle">
+            @discipline.getTitle
+        </option>
+    }
+    </select>
+    <br>
+
+    <label>Discipline title</label>
+    <input type="text" class="form-control" name="title">
+}
+
+@components.modals.generic.createmodal("Create discipline", routes.DisciplineController.addDiscipline().url){
+
+    <label>Discipline title</label>
+    <input type="text" class="form-control" name="title">
+
+}
+@components.modals.generic.deletemodal("Delete discipline", routes.DisciplineController.deleteDiscipline().url){
+
+    <label>Discipline title</label>
+    <select class="form-control" name="title">
+    @for(discipline <- disciplines) {
+        <option value="@discipline.getTitle">
+            @discipline.getTitle
+        </option>
+    }
+    </select>
+}

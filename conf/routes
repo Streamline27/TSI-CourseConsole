@@ -1,0 +1,41 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                        @controllers.Application.index()
+
+GET     /students                @controllers.StudentsController.students()
+POST    /students/add            @controllers.StudentsController.addStudent()
+POST    /students/upd            @controllers.StudentsController.updateStudent()
+POST    /students/del            @controllers.StudentsController.deleteStudent()
+
+GET     /courses                 @controllers.CoursesController.courses()
+POST    /courses/add             @controllers.CoursesController.addCourse()
+POST    /courses/upd             @controllers.CoursesController.updateCourse()
+POST    /courses/del             @controllers.CoursesController.deleteCourse()
+
+
+GET     /groups             @controllers.GroupController.defaultResult()
+GET     /groups/:id         @controllers.GroupController.getByCourseId(id: String)
+
+GET     /disciplines                @controllers.DisciplineController.disciplines()
+POST    /disciplines/add            @controllers.DisciplineController.addDiscipline()
+POST    /disciplines/upd            @controllers.DisciplineController.updateDiscipline()
+POST    /disciplines/del            @controllers.DisciplineController.deleteDiscipline()
+
+GET     /subscriptions                @controllers.SubscriptionController.subscriptions()
+POST    /subscriptions/add            @controllers.SubscriptionController.addSubscription()
+POST    /subscriptions/upd            @controllers.SubscriptionController.updateSubscription()
+POST    /subscriptions/del            @controllers.SubscriptionController.deleteSubscription()
+
+
+GET     /lessons                    @controllers.LessonController.defaultLessons()
+GET     /lessons/                   @controllers.LessonController.defaultLessons()
+GET     /lessons/:id                @controllers.LessonController.lessons(id : String)
+POST    /lessons/add                @controllers.LessonController.addLesson()
+POST    /lessons/upd                @controllers.LessonController.updateLesson()
+POST    /lessons/del                @controllers.LessonController.deleteLesson()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file        controllers.Assets.at(path="/public", file)

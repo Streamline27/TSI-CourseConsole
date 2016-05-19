@@ -1,0 +1,28 @@
+@(title: String, comment: String, action: String)(selectContent : Html)
+
+<script>
+        function addSelectValueToUrl(){
+            var e = document.getElementById("search");
+            var action_src = @action/ + e.options[e.selectedIndex].value;
+
+            console.log(e.options[e.selectedIndex].value);
+            var your_form = document.getElementById('myForm');
+            your_form.action = action_src ;
+        }
+</script>
+
+<form method="GET" onsubmit="addSelectValueToUrl()" id="myForm">
+    <div class="form-group">
+        <h2>@title</h2>
+    </div>
+    <div class="form-group">
+        <label for="search" class="weighted">@comment</label>
+        <select class="form-control search" id="search">
+
+            @selectContent
+
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<hr>

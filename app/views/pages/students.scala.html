@@ -1,0 +1,37 @@
+@(students : List[Student], msg: String, activeMenu: Integer)
+
+@main("Welcome!", activeMenu) {
+
+    <div class="row">
+        <div class="col-sm-11 col-sm-offset-1">
+            @if(msg!=null && msg!="") {
+                <div class="alert alert-warning">
+                    <strong>Warning!</strong> @msg
+                </div>
+            }
+
+            <h2>Students</h2>
+            <p>This table shows all students registered for courses.</p>
+            <table class="table table-hover">
+                <thead class="data-header">
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>Student ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(student <- students) {
+                    <tr>
+                        <td>@student.getFirstName</td>
+                        <td>@student.getLastName</td>
+                        <td>@student.getStudentId</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @components.modals.studentmodals(students)
+}

@@ -1,0 +1,34 @@
+@(disciplines : List[Discipline], msg : String, activeMenu: Integer)
+
+@main("Welcome!", activeMenu){
+
+    <div class="row">
+        <div class="col-sm-11 col-sm-offset-1">
+
+            @if(msg!=null && msg!="") {
+                <div class="alert alert-warning">
+                    <strong>Warning!</strong> @msg
+                </div>
+            }
+
+            <h2>Disciplines</h2>
+            <p>This table shows all disciplines available in our courses.</p>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="data-header">
+                        <th>Discipline</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(discipline <- disciplines) {
+                    <tr>
+                        <td>@discipline.getTitle</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @components.modals.disciplinemodals(disciplines)
+}

@@ -1,0 +1,45 @@
+@import java.text.SimpleDateFormat
+@(lessons : List[Lesson], courses: List[Course], msg : String, activeMenu: Integer)
+
+@main("Welcome!", activeMenu) {
+
+    <div class="row">
+        <div class="col-sm-11 col-sm-offset-1">
+
+            @if(msg!=null && msg!="") {
+                <div class="alert alert-warning">
+                    <strong>Warning!</strong> @msg
+                </div>
+            }
+
+            @components.search("Course lessons", "Select course:", routes.LessonController.defaultLessons().url){
+                @for(course <- courses) {
+                    <option value="@course.getCourseId">
+                        @course.getDisciplineTitle (@course.getCourseId)
+                    </option>
+                }
+            }
+
+            <table class="table table-hover">
+                <thead class="data-header">
+                    <tr>
+                        <th>Lesson ID</th>
+                        <th>Room</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(lesson <- lessons) {
+                    <tr>
+                        <td>@lesson.getLessonId</td>
+                        <td>@lesson.getRoom</td>
+                        <td>@(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(lesson.getLessonTime()))</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @components.modals.lessonmodals(courses, lessons);
+}
