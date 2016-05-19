@@ -34,13 +34,13 @@
     @components.modals.generic.createmodal("Create Student", routes.StudentsController.addStudent().url){
 
         <label>Student ID</label>
-        <input type="text" class="form-control" name="studentId">
+        <input type="text" class="form-control" name="studentId" placeholder="xxxxx-xxxxxx">
 
         <label>First name</label>
         <input type="text" class="form-control" name="firstName">
 
         <label>Last name</label>
-        <input type="text" class="form-control" name="lastName" placeholder="xxxxx-xxxxxx">
+        <input type="text" class="form-control" name="lastName">
     }
     @components.modals.generic.deletemodal("Delete student", routes.StudentsController.deleteStudent().url){
 

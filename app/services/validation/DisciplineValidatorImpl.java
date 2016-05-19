@@ -18,7 +18,11 @@ public class DisciplineValidatorImpl implements DisciplineValidator{
     public boolean isValid(Discipline entity) {
         if (entity == null) return false;
         if (entity.getTitle()==null || entity.getTitle().equals("")) return false;
-        if (disciplineDAO.read(entity.getTitle().trim())!=null) return false;
         return true;
+    }
+
+    @Override
+    public boolean isPresent(Discipline entity) {
+        return disciplineDAO.read(entity.getTitle())!=null;
     }
 }

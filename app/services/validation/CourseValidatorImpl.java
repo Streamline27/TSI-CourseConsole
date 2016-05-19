@@ -11,7 +11,7 @@ import services.dao.course.CourseDAO;
 
 @Component
 public class CourseValidatorImpl implements CourseValidator {
-    @Autowired CourseDAO courseDAO;
+    @Autowired private CourseDAO courseDAO;
 
     @Override
     public boolean isValid(Course entity) {
@@ -19,8 +19,13 @@ public class CourseValidatorImpl implements CourseValidator {
         if (entity.getCourseId()==null || entity.getCourseId().equals("")) return false;
         if (entity.getDisciplineTitle()==null || entity.getDisciplineTitle().equals("")) return false;
         if (entity.getLessonNumber()==null || entity.getLessonNumber()<=0) return false;
-        if(!entity.getCourseId().matches("[0-9a-fA-F]{2}-[0-9a-fA-F]{3}")) return false;
-        if(courseDAO.read(entity.getCourseId())!=null) return false;
-        return false;
+        if (entity.getPrice()==null || entity.getPrice().toBigInteger().longValue() <= 0) return false;
+        if(!entity.getCourseId().matches("[A-Z]{2}-[0-9a-zA-Z]{3}")) return false;
+        return true;
+    }
+
+    @Override
+    public boolean isPresent(Course entity) {
+        return courseDAO.read(entity.getCourseId())!=null;
     }
 }

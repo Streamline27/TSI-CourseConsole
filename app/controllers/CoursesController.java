@@ -34,7 +34,7 @@ public class CoursesController {
         Form<Course> form = Form.form(Course.class).bindFromRequest();
         Course course = form.get();
 
-        if (courseValidator.isValid(course)){
+        if (courseValidator.isValid(course) && !courseValidator.isPresent(course)){
             courseDAO.create(course);
             return getDefaultCoursePageResult();
         }

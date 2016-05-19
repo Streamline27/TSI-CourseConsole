@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
+
 /**
  * Created by Vladislav on 5/17/2016.
  */
@@ -35,6 +36,8 @@ public class LessonController {
         List<Lesson> lessonList = lessonDAO.getByCourseId(courseList.get(0).getCourseId());
         return play.mvc.Controller.ok(lessons.render(lessonList, courseList, null, ActivePage.Lessons));
     }
+
+
 
     private Result getMessagedLessonResult(String msg) {
         List<Course> courseList = courseDAO.readAll();

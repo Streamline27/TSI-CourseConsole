@@ -5,4 +5,6 @@ package services.validation;
  */
 public interface Validator<T> {
     boolean isValid(T entity);
+
+    boolean isPresent(T entity);
 }

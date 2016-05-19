@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
 public class StudentValidatorImplTest {
 
     private StudentValidatorImpl studentValidator;
-    private StudentDAO studentDAO;
 
     private void assertValid(Student student) {
         assertTrue(studentValidator.isValid(student));
@@ -34,10 +33,7 @@ public class StudentValidatorImplTest {
 
     @Before
     public void setup(){
-        studentDAO = Mockito.mock(StudentDAO.class);
-        when(studentDAO.read(Mockito.anyString())).thenReturn(null);
-
-        studentValidator = new StudentValidatorImpl(studentDAO);
+        studentValidator = new StudentValidatorImpl();
     }
 
     @Test
@@ -94,12 +90,5 @@ public class StudentValidatorImplTest {
         assertNotValid(student);
     }
 
-    @Test
-    public void whenStudentWithIdExists_ShouldNotBeValid(){
-        Student student = new Student("00000-000000", "First", "Last");
-        when(studentDAO.read("00000-000000")).thenReturn(new Student());
-
-        assertNotValid(student);
-    }
 
 }

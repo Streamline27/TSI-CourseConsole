@@ -36,37 +36,35 @@ public class SubscriptionController {
     }
 
     public Result addSubscription(){
-        return executeIfValidAndGetResult(
-                courseSubscription -> subscriptionDAO.create(courseSubscription),
-                "Could not create subscription. Bad credentials.");
+        CourseSubscription subscription = Form.form(CourseSubscription.class).bindFromRequest().get();
+
+        if (subscriptionValidator.isValid(subscription) && !subscriptionValidator.isPresent(subscription)){
+            subscriptionDAO.create(subscription);
+            return getDefaultSubscriptionPageResult();
+        }
+
+        return getMessagedSubscriptionPageResult("Could not create subscription. Bad credentials.");
     }
 
     public Result updateSubscription(){
+        CourseSubscription subscription = Form.form(CourseSubscription.class).bindFromRequest().get();
 
-        return executeIfValidAndGetResult(courseSubscription -> {
+        if (subscriptionValidator.isValid(subscription)){
+            CourseSubscription subscriptionToUpdate = subscriptionDAO.read(subscription.getSubscriptionId());
+            subscriptionToUpdate.setPayed(subscription.isPayed());
+            subscriptionDAO.update(subscriptionToUpdate, subscription.getSubscriptionId());
+            return getDefaultSubscriptionPageResult();
+        }
 
-            CourseSubscription subscriptionToUpdate = subscriptionDAO.read(courseSubscription.getSubscriptionId());
-            subscriptionToUpdate.setPayed(courseSubscription.isPayed());
-            subscriptionDAO.update(subscriptionToUpdate, courseSubscription.getSubscriptionId());
+        return getMessagedSubscriptionPageResult("Could not update subscription. Bad credentials.");
 
-        },  "Could not update subscription. Bad credentials.");
+
     }
 
     public Result deleteSubscription(){
         CourseSubscription subscription = Form.form(CourseSubscription.class).bindFromRequest().get();
         subscriptionDAO.delete(subscription.getSubscriptionId());
         return getDefaultSubscriptionPageResult();
-    }
-
-    private Result executeIfValidAndGetResult(Consumer<CourseSubscription> action, String errorMessage){
-        CourseSubscription subscription = Form.form(CourseSubscription.class).bindFromRequest().get();
-
-        if (subscriptionValidator.isValid(subscription)){
-            action.accept(subscription);
-            return getDefaultSubscriptionPageResult();
-        }
-
-        return getMessagedSubscriptionPageResult(errorMessage);
     }
 
     private Result getDefaultSubscriptionPageResult(){

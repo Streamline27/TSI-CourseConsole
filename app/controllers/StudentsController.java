@@ -33,29 +33,30 @@ public class StudentsController {
     }
 
     public Result addStudent(){
-        return executeIfValid(
-                student -> studentDAO.create(student),
-                "Could not create student. Bad credentials.");
+        Student student = Form.form(Student.class).bindFromRequest().get();
+
+        if (studentValidator.isValid(student) && !studentValidator.isPresent(student)){
+            studentDAO.create(student);
+            return getDefaultStudentPageResult();
+        }
+        else{
+            return getMessagedStudentPageResult("Could not create student. Bad credentials.");
+        }
+
+
     }
 
     public Result updateStudent(){
-        return executeIfValid(student -> {
-                String oldStudentId = Form.form().bindFromRequest().get("oldStudentId");
-                studentDAO.update(student, oldStudentId);
-        }, "Could not update student. Bad credentials.");
-    }
-
-
-    private Result executeIfValid(Consumer<Student> action, String msg){
         Student student = Form.form(Student.class).bindFromRequest().get();
 
         if (studentValidator.isValid(student)){
 
-            action.accept(student);
+            String oldStudentId = Form.form().bindFromRequest().get("oldStudentId");
+            studentDAO.update(student, oldStudentId);
             return getDefaultStudentPageResult();
         }
         else{
-            return getMessagedStudentPageResult(msg);
+            return getMessagedStudentPageResult("Could not update student. Bad credentials.");
         }
     }
 

@@ -29,31 +29,31 @@ public class DisciplineController {
     }
 
     public Result addDiscipline(){
-        return executeIfValidAndGetResult(
-                discipline -> disciplineDAO.create(discipline),
-                "Could not create disciplne. Bad credentials.");
+        Discipline discipline = Form.form(Discipline.class).bindFromRequest().get();
+
+        if (disciplineValidator.isValid(discipline) && !disciplineValidator.isPresent(discipline)){
+            disciplineDAO.create(discipline);
+            return getDefaultDisiciplineResult();
+        }
+        return getMessagedDisciplineResult("Could not create disciplne. Bad credentials.");
     }
 
     public Result updateDiscipline(){
-        String oldTitle = Form.form().bindFromRequest().get("oldTitle");
-        return executeIfValidAndGetResult(
-                discipline -> disciplineDAO.update(discipline, oldTitle),
-                "Could not update disciplne. Bad credentials.");
+        Discipline discipline = Form.form(Discipline.class).bindFromRequest().get();
+
+        if (disciplineValidator.isValid(discipline) && !disciplineValidator.isPresent(discipline)){
+            String oldTitle = Form.form().bindFromRequest().get("oldTitle");
+            disciplineDAO.update(discipline, oldTitle);
+            return getDefaultDisiciplineResult();
+        }
+        return getMessagedDisciplineResult("Could not update disciplne. Bad credentials.");
+
     }
 
     public Result deleteDiscipline(){
         Discipline discipline = Form.form(Discipline.class).bindFromRequest().get();
         disciplineDAO.delete(discipline.getTitle());
         return getDefaultDisiciplineResult();
-    }
-
-    private Result executeIfValidAndGetResult(Consumer<Discipline> action, String errorMsg){
-        Discipline discipline = Form.form(Discipline.class).bindFromRequest().get();
-        if (disciplineValidator.isValid(discipline)){
-            action.accept(discipline);
-            return getDefaultDisiciplineResult();
-        }
-        return getMessagedDisciplineResult(errorMsg);
     }
 
     private Result getDefaultDisiciplineResult(){
