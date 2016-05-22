@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS Course(
     isFinished BOOLEAN,
     lessonNumber INTEGER,
 	price NUMERIC(6, 2),
-    discipline VARCHAR(255) REFERENCES Discipline
+    discipline VARCHAR(255) REFERENCES Discipline ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS CourseSubscription CASCADE;
