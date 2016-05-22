@@ -12,6 +12,7 @@ libraryDependencies ++= Seq(
   "org.springframework" % "spring-jdbc" % "4.1.1.RELEASE",
   "org.springframework" % "spring-test" % "4.1.1.RELEASE" % "test",
   "org.webjars" % "bootstrap" % "3.0.3",
+  "log4j" % "log4j" % "1.2.14",
   "org.mockito" % "mockito-core" % "1.9.5"
 )
 

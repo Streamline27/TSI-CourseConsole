@@ -1,5 +1,7 @@
 package configs;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +17,6 @@ import javax.sql.DataSource;
 
 import play.Play;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 @Configuration
 @EnableTransactionManagement
 public class DataConfig {
@@ -25,17 +24,22 @@ public class DataConfig {
     private @Autowired DataSource dataSource;
 
     @Bean
-    public DataSource dataSource() throws URISyntaxException {
+    public DataSource dataSource() {
+
+        BasicConfigurator.configure();
+        Logger log = Logger.getLogger(DataConfig.class);
+
+
         final String driverClass = Play.application().configuration().getString("db.default.driver");
-//        final String url  = Play.application().configuration().getString("db.default.url");
-//        final String user = Play.application().configuration().getString("db.default.user");
-//        final String pass = Play.application().configuration().getString("db.default.password");
+        final String url  = Play.application().configuration().getString("db.default.url");
+        final String user = Play.application().configuration().getString("db.default.user");
+        final String pass = Play.application().configuration().getString("db.default.password");
 
-        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+        log.info(url);
+        log.info(user);
+        log.info(pass);
+        log.info(driverClass);
 
-        String user = dbUri.getUserInfo().split(":")[0];
-        String pass = dbUri.getUserInfo().split(":")[1];
-        String url = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
 
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driverClass);
@@ -47,18 +51,22 @@ public class DataConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() throws URISyntaxException {
+    public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(dataSource());
     }
 
     @PostConstruct
     public void setUp(){
 //        Resource resource = new ClassPathResource("schema/mysql.sql");
+        BasicConfigurator.configure();
+        Logger log = Logger.getLogger(DataConfig.class);
 
         String dbSchemaFile = Play.application().configuration().getString("db.schema.file");
 
-        System.out.println("Creating database schema...");
-        System.out.println("Schema file: "+dbSchemaFile);
+        log.info("Creating database schema...");
+        log.info("Schema file: "+dbSchemaFile);
+
+        log.info("DataSource: ");
 
 
         Resource resource = new ClassPathResource(dbSchemaFile);
@@ -67,6 +75,6 @@ public class DataConfig {
         databasePopulator.setContinueOnError(true);
         databasePopulator.execute(dataSource);
 
-        System.out.println("Done.");
+        log.info("Done.");
     }
 }
