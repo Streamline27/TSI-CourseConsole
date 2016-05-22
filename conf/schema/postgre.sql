@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS CourseSubscription(
     courseId VARCHAR(255),
     isPayed BOOLEAN,
     UNIQUE(studentId, courseId),
-    FOREIGN KEY (studentId) REFERENCES Student(studentId) ON DELETE CASCADE,
-    FOREIGN KEY (courseId)  REFERENCES Course(courseId)   ON DELETE CASCADE
+    FOREIGN KEY (studentId) REFERENCES Student(studentId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (courseId)  REFERENCES Course(courseId)   ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS Lesson CASCADE;
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Lesson(
     lessonTime TIMESTAMP,
     courseId VARCHAR(255),
     CONSTRAINT lessons_hosted_by_course
-    FOREIGN KEY (courseId) REFERENCES Course(courseId) ON DELETE CASCADE
+    FOREIGN KEY (courseId) REFERENCES Course(courseId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 

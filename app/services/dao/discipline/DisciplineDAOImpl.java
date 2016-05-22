@@ -17,7 +17,7 @@ import java.util.List;
 public class DisciplineDAOImpl implements DisciplineDAO {
     @Autowired private JdbcTemplate jdbcTemplate;
 
-    private final String SQL_INSERT = "INSERT IGNORE INTO Discipline(Title) VALUES (?)";
+    private final String SQL_INSERT = "INSERT INTO Discipline(Title) VALUES (?)";
 
     private final String SQL_SELECT_ALL   = "SELECT * FROM Discipline";
     private final String SQL_SELECT = "SELECT * FROM Discipline WHERE title=?";
