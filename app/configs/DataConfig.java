@@ -57,11 +57,11 @@ public class DataConfig {
         System.out.println("DataSource: ");
 
 
-//        Resource resource = new ClassPathResource(dbSchemaFile);
-//
-//        ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(resource);
-//        databasePopulator.setContinueOnError(true);
-//        databasePopulator.execute(dataSource);
+        Resource resource = new ClassPathResource(dbSchemaFile);
+
+        ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(resource);
+        databasePopulator.setContinueOnError(true);
+        databasePopulator.execute(dataSource);
 
         System.out.println("Done.");
     }
