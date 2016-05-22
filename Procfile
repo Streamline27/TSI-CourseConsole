@@ -1,1 +1,1 @@
-web target/universal/stage/bin/play-java-spring -Dhttp.port=$PORT -Dconfig.resource=prod.conf
+web target/universal/stage/bin/play-java-spring -Dconfig.resource=prod.conf -Dhttp.port=$PORT
