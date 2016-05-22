@@ -26,20 +26,10 @@ public class DataConfig {
     @Bean
     public DataSource dataSource() {
 
-        BasicConfigurator.configure();
-        Logger log = Logger.getLogger(DataConfig.class);
-
-
         final String driverClass = Play.application().configuration().getString("db.default.driver");
         final String url  = Play.application().configuration().getString("db.default.url");
         final String user = Play.application().configuration().getString("db.default.user");
         final String pass = Play.application().configuration().getString("db.default.password");
-
-        log.info(url);
-        log.info(user);
-        log.info(pass);
-        log.info(driverClass);
-
 
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driverClass);
@@ -58,23 +48,21 @@ public class DataConfig {
     @PostConstruct
     public void setUp(){
 //        Resource resource = new ClassPathResource("schema/mysql.sql");
-        BasicConfigurator.configure();
-        Logger log = Logger.getLogger(DataConfig.class);
 
         String dbSchemaFile = Play.application().configuration().getString("db.schema.file");
 
-        log.info("Creating database schema...");
-        log.info("Schema file: "+dbSchemaFile);
+        System.out.println("Creating database schema...");
+        System.out.println("Schema file: "+dbSchemaFile);
 
-        log.info("DataSource: ");
+        System.out.println("DataSource: ");
 
 
-        Resource resource = new ClassPathResource(dbSchemaFile);
+//        Resource resource = new ClassPathResource(dbSchemaFile);
+//
+//        ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(resource);
+//        databasePopulator.setContinueOnError(true);
+//        databasePopulator.execute(dataSource);
 
-        ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(resource);
-        databasePopulator.setContinueOnError(true);
-        databasePopulator.execute(dataSource);
-
-        log.info("Done.");
+        System.out.println("Done.");
     }
 }
