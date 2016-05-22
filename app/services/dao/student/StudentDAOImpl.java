@@ -2,6 +2,7 @@ package services.dao.student;
 
 import models.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import services.ModelRowMappers;
@@ -37,14 +38,22 @@ public class StudentDAOImpl implements StudentDAO {
     @Override
     public Student read(String id) {
         System.out.println("Read student. id = " +id);
-        return  (Student) jdbcTemplate.queryForObject(SQL_SELECT, new Object[]{ id }, ModelRowMappers.mapStudent);
+        try {
+            return  (Student) jdbcTemplate.queryForObject(SQL_SELECT, new Object[]{ id }, ModelRowMappers.mapStudent);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
 
     @Override
     public List<Student> readAll() {
         System.out.println("Read all students.");
-        return jdbcTemplate.query(SQL_SELECT_ALL, ModelRowMappers.mapStudent);
+        try {
+            return jdbcTemplate.query(SQL_SELECT_ALL, ModelRowMappers.mapStudent);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
 

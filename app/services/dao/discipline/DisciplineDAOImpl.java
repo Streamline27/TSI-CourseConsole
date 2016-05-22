@@ -2,6 +2,7 @@ package services.dao.discipline;
 
 import models.Discipline;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import services.ModelRowMappers;
@@ -32,13 +33,21 @@ public class DisciplineDAOImpl implements DisciplineDAO {
     @Override
     public Discipline read(String title) {
         System.out.println("Read discipline with title = " +title);
-        return  (Discipline) jdbcTemplate.queryForObject(SQL_SELECT, new Object[]{ title }, ModelRowMappers.mapDiscipline);
+        try {
+            return  (Discipline) jdbcTemplate.queryForObject(SQL_SELECT, new Object[]{ title }, ModelRowMappers.mapDiscipline);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     @Override
     public List<Discipline> readAll() {
         System.out.println("Read all disciplines.");
-        return jdbcTemplate.query(SQL_SELECT_ALL, ModelRowMappers.mapDiscipline);
+        try {
+            return jdbcTemplate.query(SQL_SELECT_ALL, ModelRowMappers.mapDiscipline);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     @Override

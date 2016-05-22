@@ -2,6 +2,7 @@ package services.dao.subscription;
 
 import models.CourseSubscription;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import services.ModelRowMappers;
@@ -31,13 +32,21 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
     @Override
     public CourseSubscription read(Long id) {
         System.out.println("Read subscription: " +id);
-        return  (CourseSubscription) jdbcTemplate.queryForObject(SQL_SELECT, new Object[]{ id }, ModelRowMappers.mapSubscription);
+        try {
+            return  (CourseSubscription) jdbcTemplate.queryForObject(SQL_SELECT, new Object[]{ id }, ModelRowMappers.mapSubscription);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     @Override
     public List<CourseSubscription> readAll() {
         System.out.println("Read all subscriptions.");
-        return jdbcTemplate.query(SQL_SELECT_ALL, ModelRowMappers.mapSubscription);
+        try {
+            return jdbcTemplate.query(SQL_SELECT_ALL, ModelRowMappers.mapSubscription);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     @Override

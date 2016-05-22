@@ -3,6 +3,7 @@ package services.dao.lesson;
 import models.Lesson;
 import models.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import services.ModelRowMappers;
@@ -36,13 +37,21 @@ public class LessonDAOImpl implements LessonDAO{
     public Lesson read(Long id)
     {
         System.out.println("Read lesson. id = " +id);
-        return  (Lesson) jdbcTemplate.queryForObject(SQL_SELECT, new Object[]{ id }, ModelRowMappers.mapLesson);
+        try {
+            return  (Lesson) jdbcTemplate.queryForObject(SQL_SELECT, new Object[]{ id }, ModelRowMappers.mapLesson);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     @Override
     public List<Lesson> readAll() {
         System.out.println("Read all Lessons.");
-        return jdbcTemplate.query(SQL_SELECT_ALL, ModelRowMappers.mapLesson);
+        try {
+            return jdbcTemplate.query(SQL_SELECT_ALL, ModelRowMappers.mapLesson);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     @Override
@@ -59,6 +68,10 @@ public class LessonDAOImpl implements LessonDAO{
 
     @Override
     public List<Lesson> getByCourseId(String id) {
-        return jdbcTemplate.query(SQL_BY_COURSE, new Object[]{ id }, ModelRowMappers.mapLesson);
+        try {
+            return jdbcTemplate.query(SQL_BY_COURSE, new Object[]{ id }, ModelRowMappers.mapLesson);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 }

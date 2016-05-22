@@ -10,6 +10,7 @@ import services.dao.course.CourseDAO;
 import services.dao.student.StudentDAO;
 import views.html.pages.groups;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class GroupController {
 
     public Result defaultResult(){
         List<Course> courseList = courseDAO.readAll();
-        List<Student> studentList = studentDAO.getByCourseId(courseList.get(0).getCourseId());
+        List<Student> studentList = getByCourseId(courseList);
         return play.mvc.Controller.ok(groups.render(studentList, courseList, ActivePage.Groups));
     }
 
@@ -42,5 +43,11 @@ public class GroupController {
         while (!courseList.get(currentId).getCourseId().equals(id)) currentId++;
         Collections.swap(courseList, 0, currentId);
     }
+
+    private List<Student> getByCourseId(List<Course> courseList) {
+        if (courseList.size()>0) return studentDAO.getByCourseId(courseList.get(0).getCourseId());
+        else return new ArrayList<>();
+    }
+
 
 }

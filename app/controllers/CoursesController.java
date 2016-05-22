@@ -34,6 +34,12 @@ public class CoursesController {
         Form<Course> form = Form.form(Course.class).bindFromRequest();
         Course course = form.get();
 
+        System.out.println(course.getCourseId());
+        System.out.println(course.getDisciplineTitle());
+        System.out.println(course.getFinished());
+        System.out.println(course.getLessonNumber());
+        System.out.println(course.getPrice());
+
         if (courseValidator.isValid(course) && !courseValidator.isPresent(course)){
             courseDAO.create(course);
             return getDefaultCoursePageResult();

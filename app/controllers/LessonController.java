@@ -15,6 +15,7 @@ import views.html.pages.lessons;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,7 @@ public class LessonController {
 
     public Result defaultLessons(){
         List<Course> courseList = courseDAO.readAll();
-        List<Lesson> lessonList = lessonDAO.getByCourseId(courseList.get(0).getCourseId());
+        List<Lesson> lessonList = getByCourseId(courseList);
         return play.mvc.Controller.ok(lessons.render(lessonList, courseList, null, ActivePage.Lessons));
     }
 
@@ -92,5 +93,11 @@ public class LessonController {
         while (!courseList.get(currentId).getCourseId().equals(id)) currentId++;
         Collections.swap(courseList, 0, currentId);
     }
+
+    private List<Lesson> getByCourseId(List<Course> courseList) {
+        if (courseList.size()>0) return lessonDAO.getByCourseId(courseList.get(0).getCourseId());
+        else return new ArrayList<>();
+    }
+
 
 }

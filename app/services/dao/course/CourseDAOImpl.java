@@ -2,6 +2,7 @@ package services.dao.course;
 
 import models.Course;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import services.ModelRowMappers;
@@ -39,13 +40,21 @@ public class CourseDAOImpl implements CourseDAO{
     @Override
     public Course read(String id) {
         System.out.println("Read course. id = " +id);
-        return  (Course) jdbcTemplate.queryForObject(SQL_SELECT, new Object[]{ id }, ModelRowMappers.mapCourse);
+        try {
+            return  (Course) jdbcTemplate.queryForObject(SQL_SELECT, new Object[]{ id }, ModelRowMappers.mapCourse);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     @Override
     public List<Course> readAll() {
         System.out.println("Read all courses.");
-        return jdbcTemplate.query(SQL_SELECT_ALL, ModelRowMappers.mapCourse);
+        try{
+            return jdbcTemplate.query(SQL_SELECT_ALL, ModelRowMappers.mapCourse);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     @Override
