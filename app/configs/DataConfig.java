@@ -20,6 +20,7 @@ import scala.reflect.io.VirtualFile;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.logging.Logger;
 
 @Configuration
 @EnableTransactionManagement
@@ -56,6 +57,7 @@ public class DataConfig {
 
         System.out.println("Creating database schema...");
         System.out.println("Schema file: "+dbSchemaFile);
+
 
         Resource resource = new ClassPathResource(dbSchemaFile);
 
