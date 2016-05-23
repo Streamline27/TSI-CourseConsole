@@ -18,6 +18,7 @@ import views.html.pages.subscriptions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Created by Vladislav on 5/15/2016.
@@ -66,18 +67,35 @@ public class SubscriptionController {
     }
 
     private Result getMessagedSubscriptionPageResult(String errorMessage){
-        List<SubscriptionTuple> subscriptionList = getSubscriptionTupleList(subscriptionDAO.readAll());
         List<Student> studentList = studentDAO.readAll();
         List<Course> courseList = courseDAO.readAll();
+        List<CourseSubscription> courseSubscriptions = subscriptionDAO.readAll();
+        List<SubscriptionTuple> subscriptionList = getSubscriptionTupleList(courseSubscriptions, studentList, courseList);
         return play.mvc.Controller.ok(subscriptions.render(subscriptionList, studentList, courseList, errorMessage, ActivePage.Subscriptions));
     }
 
-    private List<SubscriptionTuple> getSubscriptionTupleList(List<CourseSubscription> courseSubscriptions){
+    private Predicate<Course> courseIdEquals(String id){
+        return course -> course.getCourseId().equals(id);
+    }
+
+    private Predicate<Student> studentIdEquals(String id){
+        return student -> student.getStudentId().equals(id);
+    }
+
+    private List<SubscriptionTuple> getSubscriptionTupleList(List<CourseSubscription> courseSubscriptions,
+                                                             List<Student> studentList,
+                                                             List<Course> courseList){
         List<SubscriptionTuple> subscriptionTuples = new ArrayList<>();
         for (CourseSubscription s : courseSubscriptions){
-            Course subscribedCourse = courseDAO.read(s.getCourseId());
-            Student subscribedStudent  = studentDAO.read(s.getStudentId());
+            Course subscribedCourse = courseList.stream()
+                    .filter(courseIdEquals(s.getCourseId()))
+                    .findFirst().get();
+            Student subscribedStudent  = studentList.stream()
+                    .filter(studentIdEquals(s.getStudentId()))
+                    .findFirst().get();
+
             SubscriptionTuple tuple = new SubscriptionTuple(s, subscribedStudent, subscribedCourse);
+
             subscriptionTuples.add(tuple);
         }
         return subscriptionTuples;
