@@ -19,8 +19,9 @@ CREATE TABLE IF NOT EXISTS Course(
 	courseId VARCHAR(255) PRIMARY KEY,
     isFinished BOOLEAN,
     lessonNumber INTEGER,
-	price NUMERIC(6, 2),
-    discipline VARCHAR(255) REFERENCES Discipline ON DELETE CASCADE ON UPDATE CASCADE
+  	price NUMERIC(6, 2),
+    discipline VARCHAR(255),
+    FOREIGN KEY (discipline)  REFERENCES Discipline(title) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS CourseSubscription CASCADE;
