@@ -49,16 +49,10 @@ public class SubscriptionController {
     public Result updateSubscription(){
         CourseSubscription subscription = Form.form(CourseSubscription.class).bindFromRequest().get();
 
-        if (subscriptionValidator.isValid(subscription)){
-            CourseSubscription subscriptionToUpdate = subscriptionDAO.read(subscription.getSubscriptionId());
-            subscriptionToUpdate.setPayed(subscription.isPayed());
-            subscriptionDAO.update(subscriptionToUpdate, subscription.getSubscriptionId());
-            return getDefaultSubscriptionPageResult();
-        }
-
-        return getMessagedSubscriptionPageResult("Could not update subscription. Bad credentials.");
-
-
+        CourseSubscription subscriptionToUpdate = subscriptionDAO.read(subscription.getSubscriptionId());
+        subscriptionToUpdate.setPayed(subscription.isPayed());
+        subscriptionDAO.update(subscriptionToUpdate, subscription.getSubscriptionId());
+        return getDefaultSubscriptionPageResult();
     }
 
     public Result deleteSubscription(){
